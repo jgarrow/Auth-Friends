@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { axiosWithAuth } from "../utils/axiosWithAuth";
 
-const LoginForm = () => {
+const LoginForm = props => {
     const [user, setUser] = useState({
         username: "",
         password: ""
@@ -12,13 +12,14 @@ const LoginForm = () => {
     };
 
     const handleLogin = e => {
-        console.log("in handleLogin");
         e.preventDefault();
 
         axiosWithAuth()
             .post("/login", user)
             .then(res => {
                 localStorage.setItem("token", res.data.payload);
+
+                props.history.push("/my-friends");
             })
             .catch(err => {
                 localStorage.removeItem("token");
