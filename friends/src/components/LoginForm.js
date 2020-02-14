@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { axiosWithAuth } from "../utils/axiosWithAuth";
 
 const LoginForm = () => {
     const [user, setUser] = useState({
@@ -7,12 +8,22 @@ const LoginForm = () => {
     });
 
     const handleChange = e => {
-        console.log("e.target.value: ", e.target.value);
         setUser({ ...user, [e.target.name]: e.target.value });
     };
 
     const handleLogin = e => {
+        console.log("in handleLogin");
         e.preventDefault();
+
+        axiosWithAuth()
+            .post("/login", user)
+            .then(res => {
+                localStorage.setItem("token", res.data.payload);
+            })
+            .catch(err => {
+                localStorage.removeItem("token");
+                console.log("Invalid login: ", err);
+            });
     };
 
     return (

@@ -1,15 +1,19 @@
 import React from "react";
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { BrowserRouter as Router, Route, Switch, Link } from "react-router-dom";
 import "./App.css";
 
 import LoginForm from "./components/LoginForm";
 import ProtectedRoute from "./components/ProtectedRoute";
-import Friends from "./components/Friends;";
+import Friends from "./components/Friends";
 
 function App() {
     return (
         <Router>
             <div className="App">
+                <nav>
+                    <Link to="/login">Login</Link>
+                    <Link to="/my-friends">My Friends</Link>
+                </nav>
                 <Switch>
                     <ProtectedRoute
                         exact
