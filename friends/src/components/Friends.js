@@ -1,11 +1,43 @@
 import React, { useState, useEffect } from "react";
 import { axiosWithAuth } from "../utils/axiosWithAuth";
+import styled from "styled-components";
+
+import { IoMdAddCircleOutline } from "react-icons/io";
 
 import AddFriendForm from "./AddFriendForm";
+import EditFriendForm from "./EditFriendForm";
+import Modal from "./Modal";
+import Friend from "./Friend";
+
+const FriendsContainer = styled.div`
+    width: 80%;
+    height: 100%;
+    max-height: 100vh;
+    margin: 0 auto;
+    overflow-y: scroll;
+    box-sizing: border-box;
+    padding-bottom: 2rem;
+`;
 
 const Friends = () => {
     const [friends, setFriends] = useState([]);
-    console.log("In Friends component");
+    const [isAddingFriend, setIsAddingFriend] = useState(false);
+    const [isEditingFriend, setIsEditingFriend] = useState(false);
+    const [friendToEdit, setFriendToEdit] = useState(null);
+
+    const toggleIsAddingFriend = e => {
+        setIsAddingFriend(!isAddingFriend);
+    };
+
+    const toggleisEditingFriend = friend => {
+        if (!isEditingFriend) {
+            setFriendToEdit(friend);
+        } else {
+            setFriendToEdit(null);
+        }
+
+        setIsEditingFriend(!isEditingFriend);
+    };
 
     const getFriends = () => {
         axiosWithAuth()
@@ -23,15 +55,38 @@ const Friends = () => {
 
     return (
         <div>
-            <AddFriendForm setFriends={setFriends} />
-            {friends.length &&
-                friends.map(friend => (
-                    <div key={friend.id}>
-                        <h2>{friend.name}</h2>
-                        <p>Age: {friend.age}</p>
-                        <p>Email: {friend.email}</p>
-                    </div>
-                ))}
+            <IoMdAddCircleOutline onClick={toggleIsAddingFriend} />
+
+            {isAddingFriend && (
+                <Modal
+                    form={AddFriendForm}
+                    setFriends={setFriends}
+                    toggleIsAddingFriend={toggleIsAddingFriend}
+                    isAdding={true}
+                />
+            )}
+
+            {isEditingFriend && (
+                <Modal
+                    form={EditFriendForm}
+                    setFriends={setFriends}
+                    toggleisEditingFriend={toggleisEditingFriend}
+                    friendToEdit={friendToEdit}
+                    setFriendToEdit={setFriendToEdit}
+                    setFriendToEdit={setFriendToEdit}
+                />
+            )}
+
+            <FriendsContainer>
+                {friends.length &&
+                    friends.map(friend => (
+                        <Friend
+                            key={friend.id}
+                            friend={friend}
+                            toggleisEditingFriend={toggleisEditingFriend}
+                        />
+                    ))}
+            </FriendsContainer>
         </div>
     );
 };
