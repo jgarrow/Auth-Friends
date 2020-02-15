@@ -49,6 +49,18 @@ const Friends = () => {
             .catch(err => console.log("Error getting friends: ".err));
     };
 
+    const handleDelete = friendToDelete => {
+        axiosWithAuth()
+            .delete(`/friends/${friendToDelete.id}`, friendToDelete)
+            .then(res => {
+                console.log("delete res: ", res);
+                setFriends(res.data);
+            })
+            .catch(err => console.log("Error deleting friend: ", err));
+
+        setFriendToEdit(null);
+    };
+
     useEffect(() => {
         getFriends();
     }, []);
@@ -84,6 +96,7 @@ const Friends = () => {
                             key={friend.id}
                             friend={friend}
                             toggleisEditingFriend={toggleisEditingFriend}
+                            handleDelete={handleDelete}
                         />
                     ))}
             </FriendsContainer>

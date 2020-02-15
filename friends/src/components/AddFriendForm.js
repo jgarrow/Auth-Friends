@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { axiosWithAuth } from "../utils/axiosWithAuth";
 
-const AddFriendForm = ({ setFriends }) => {
+const AddFriendForm = ({ setFriends, toggleIsAddingFriend }) => {
     const [newFriend, setNewFriend] = useState({
         name: "",
         age: 0,
@@ -34,6 +34,8 @@ const AddFriendForm = ({ setFriends }) => {
                     );
             })
             .catch(err => console.log("Error adding new friend: ", err));
+
+        toggleIsAddingFriend(e);
     };
 
     return (
