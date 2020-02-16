@@ -12,11 +12,32 @@ import Friend from "./Friend";
 const FriendsContainer = styled.div`
     width: 80%;
     height: 100%;
-    max-height: 100vh;
+    max-height: calc(100vh - (99px + 2rem));
     margin: 0 auto;
     overflow-y: scroll;
     box-sizing: border-box;
-    padding-bottom: 2rem;
+    padding-bottom: 1rem;
+`;
+
+const AddContainer = styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 150px;
+    margin: 1rem auto;
+`;
+
+const AddLabel = styled.label`
+    cursor: pointer;
+
+    &:hover {
+        text-decoration: underline;
+    }
+`;
+
+const AddIcon = styled(IoMdAddCircleOutline)`
+    cursor: pointer;
+    font-size: 1.5rem;
 `;
 
 const Friends = () => {
@@ -43,7 +64,6 @@ const Friends = () => {
         axiosWithAuth()
             .get("/friends")
             .then(res => {
-                console.log("GET /friends res: ", res);
                 setFriends(res.data);
             })
             .catch(err => console.log("Error getting friends: ".err));
@@ -53,7 +73,6 @@ const Friends = () => {
         axiosWithAuth()
             .delete(`/friends/${friendToDelete.id}`, friendToDelete)
             .then(res => {
-                console.log("delete res: ", res);
                 setFriends(res.data);
             })
             .catch(err => console.log("Error deleting friend: ", err));
@@ -67,7 +86,12 @@ const Friends = () => {
 
     return (
         <div>
-            <IoMdAddCircleOutline onClick={toggleIsAddingFriend} />
+            <AddContainer>
+                <AddLabel htmlFor="add-friend" onClick={toggleIsAddingFriend}>
+                    Add New Friend
+                </AddLabel>
+                <AddIcon id="add-friend" onClick={toggleIsAddingFriend} />
+            </AddContainer>
 
             {isAddingFriend && (
                 <Modal
@@ -84,7 +108,6 @@ const Friends = () => {
                     setFriends={setFriends}
                     toggleisEditingFriend={toggleisEditingFriend}
                     friendToEdit={friendToEdit}
-                    setFriendToEdit={setFriendToEdit}
                     setFriendToEdit={setFriendToEdit}
                 />
             )}

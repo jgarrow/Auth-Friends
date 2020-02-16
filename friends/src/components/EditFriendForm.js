@@ -11,9 +11,6 @@ const EditFriendForm = ({
         ...friend
     });
 
-    console.log("incoming friend: ", friend);
-    console.log("tempFriend: ", tempFriend);
-
     const handleChange = e => {
         setTempFriend({
             ...tempFriend,
@@ -23,12 +20,10 @@ const EditFriendForm = ({
 
     const handleSubmit = (e, tempFriend) => {
         e.preventDefault();
-        console.log("tempFriend in handleSubmit: ", tempFriend);
 
         axiosWithAuth()
             .put(`/friends/${tempFriend.id}`, tempFriend)
             .then(res => {
-                console.log("PUT request res: ", res);
                 setFriends(res.data);
             })
             .catch(err => console.log("Error with PUT request: ", err));

@@ -1,6 +1,5 @@
 import React from "react";
 import styled from "styled-components";
-import { axiosWithAuth } from "../utils/axiosWithAuth";
 
 import { MdEdit } from "react-icons/md";
 import { FaRegTrashAlt } from "react-icons/fa";
@@ -15,6 +14,7 @@ const Card = styled.div`
     align-items: center;
     margin: 1rem auto;
     width: 300px;
+    background: white;
 `;
 
 const EditIcon = styled(MdEdit)`

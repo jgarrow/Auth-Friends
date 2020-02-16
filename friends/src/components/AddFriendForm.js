@@ -17,21 +17,11 @@ const AddFriendForm = ({ setFriends, toggleIsAddingFriend }) => {
 
     const handleSubmit = e => {
         e.preventDefault();
-        console.log("New Friend: ", newFriend);
 
         axiosWithAuth()
             .post("/friends", newFriend)
             .then(res => {
-                console.log("add friend res: ", res);
-
-                axiosWithAuth()
-                    .get("/friends")
-                    .then(res => {
-                        setFriends(res.data);
-                    })
-                    .catch(err =>
-                        console.log("Error getting updated friends list: ", err)
-                    );
+                setFriends(res.data);
             })
             .catch(err => console.log("Error adding new friend: ", err));
 
